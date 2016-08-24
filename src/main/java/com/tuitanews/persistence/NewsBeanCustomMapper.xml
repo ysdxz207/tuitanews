@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tuitanews.persistence.NewsBeanCustomMapper" >
+	<select id="selectNewsBeanList" parameterType="java.util.Map" resultType="com.tuitanews.domain.NewsBeanVO">
+	    SELECT * 
+	    FROM news_bean
+	    ORDER BY pub_date DESC
+	    <if test="pageOffset != null and pageSize != null">
+			LIMIT #{pageOffset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};
+		</if>
+	</select>
+</mapper>
