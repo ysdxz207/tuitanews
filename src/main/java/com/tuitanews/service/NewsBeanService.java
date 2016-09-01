@@ -13,6 +13,7 @@ import com.tuitanews.domain.NewsBeanExample;
 import com.tuitanews.domain.NewsBeanVO;
 import com.tuitanews.persistence.NewsBeanCustomMapper;
 import com.tuitanews.persistence.NewsBeanMapper;
+import com.tuitanews.persistence.NewsChannelMapper;
 
 @Service
 public class NewsBeanService {
@@ -21,6 +22,8 @@ public class NewsBeanService {
 	private NewsBeanMapper newsBeanMapper;
 	@Autowired
 	private NewsBeanCustomMapper newsBeanCustomMapper;
+	@Autowired
+	private NewsChannelMapper newsChannelMapper;
 	
 	
 	public void insertNewsBeanByVo(NewsBeanVO newsBeanVO){
@@ -41,6 +44,9 @@ public class NewsBeanService {
 	public int countByExample(NewsBeanExample newsBeanExample){
 		return newsBeanMapper.countByExample(newsBeanExample);
 	}
-	
-	
+
+	public NewsBean selectNewsBean(Integer newsBeanId) {
+		return newsBeanMapper.selectByPrimaryKey(newsBeanId);
+	}
+
 }

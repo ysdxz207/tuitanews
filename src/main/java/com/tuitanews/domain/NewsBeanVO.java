@@ -1,12 +1,18 @@
 package com.tuitanews.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class NewsBeanVO {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class NewsBeanVO implements Serializable{
+	private Integer id;
+	private String nid;
 	private String title;//标题
 	private String content;//内容
 	private String source;//来源
 	private String html;//
+	private String contentWithImgs;
 	private String faceUrl;//封面图片url
 	private String desc;//描述
 	private String channelId;//频道ID
@@ -16,8 +22,35 @@ public class NewsBeanVO {
 	private String pubDate;//发布时日
 	private Date creatDate;//创建日期
 	
+	@JsonProperty("allList")
+	private String allList;//
 	
 	
+	
+	public String getContentWithImgs() {
+		return contentWithImgs;
+	}
+	public void setContentWithImgs(String contentWithImgs) {
+		this.contentWithImgs = contentWithImgs;
+	}
+	public String getAllList() {
+		return allList;
+	}
+	public void setAllList(String allList) {
+		this.allList = allList;
+	}
+	public String getNid() {
+		return nid;
+	}
+	public void setNid(String nid) {
+		this.nid = nid;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getFaceUrl() {
 		return faceUrl;
 	}

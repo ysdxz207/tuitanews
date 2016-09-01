@@ -8,14 +8,18 @@
      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
-     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd
      http://springcryptoutils.com/schema/crypt
      http://springcryptoutils.com/schema/crypt.xsd">
+     
 	<!-- scan beans -->
 	<context:component-scan base-package="com.tuitanews.controller, com.tuitanews.service, com.tuitanews.core">
 	</context:component-scan>
+	
+	<!-- 当Spring容器启动完成后执行下面的这个Bean -->
+	<bean class="com.tuitanews.core.InitProcessor"/>
 
 	<!-- mysql config -->
 	<bean

@@ -1,38 +1,67 @@
 package com.tuitanews.core.quartz;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
+import javax.jms.Destination;
+
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.PersistJobDataAfterExecution;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tuitanews.domain.ApiChannelVO;
 import com.tuitanews.domain.NewsBeanExample;
 import com.tuitanews.domain.NewsBeanExample.Criteria;
 import com.tuitanews.domain.NewsBeanVO;
+import com.tuitanews.service.ActivemqProducerService;
 import com.tuitanews.service.NewsApiService;
 import com.tuitanews.service.NewsBeanService;
+import com.tuitanews.utils.Constants;
+import com.tuitanews.utils.DateConverter;
 
+@PersistJobDataAfterExecution
+@DisallowConcurrentExecution
 public class NewsBeanJob {
 
 	@Autowired
 	private NewsApiService newsApiService;
 	@Autowired
 	private NewsBeanService newsBeanService;
+	@Autowired
+	private ActivemqProducerService activemqProducerService;
+	@Autowired
+	private Destination destination;  
+	
+	private final static Logger logger = LoggerFactory.getLogger(NewsBeanJob.class);
 	/**
 	 * 
 	 */
 	public void doSyncNews() {
-		Map<String, Object> map = new HashMap<String, Object>();
+		for (ApiChannelVO apiChannelVO : Constants.apiChannelList) {
+			getNewsFromApi(apiChannelVO);
+		}
+	}
+	
+	public void getNewsFromApi(ApiChannelVO apiChannelVO){
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("channelId", "5572a108b3cdc86cf39001cd");// 国内最新
+		params.put("channelId", apiChannelVO.getChannelId());
+		params.put("needContent", 1);
 		params.put("needHtml", 1);
 
 		List<NewsBeanVO> list = newsApiService.getNewsListByApi(params);
-		int n = list.size();
 		
+		//去重数据
+		List<NewsBeanVO> listWithoutDup = new ArrayList<>(new HashSet<>(list));
+		
+		int n = listWithoutDup.size();
 		try {
-			for (NewsBeanVO newsBeanVO : list) {
+			for (NewsBeanVO newsBeanVO : listWithoutDup) {
 				NewsBeanExample newsBeanExample = new NewsBeanExample();
 				Criteria criteria = newsBeanExample.createCriteria();
 				criteria.andTitleEqualTo(newsBeanVO.getTitle());
@@ -41,12 +70,14 @@ public class NewsBeanJob {
 					n --;
 					continue;
 				}
-				newsBeanService.insertNewsBeanByVo(newsBeanVO);
-				
+				activemqProducerService.sendMessage(destination, newsBeanVO);//生产者发送队列消息
+				//logger.info(newsBeanVO.getTitle());
 			}
+			//logger.info("---------------------");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("sync news num = " + n);
+		System.out.println(DateConverter.formatDateTime(new Date()) + "[" + apiChannelVO.getChannelName() + "]频道同步了" + n + "条新闻");
 	}
+	
 }

@@ -21,8 +21,7 @@
 			<ref bean="syncNewsJobTriggerDetail" />
 		</property>
 		<property name="cronExpression">
-			<!--middle night 24. do it -->
-			<value>*/20 * * * * ?</value>
+			<value>* */5 * * * ?</value>
 		</property>
 	</bean>
 	<!-- 调度的配置结束 -->
@@ -36,6 +35,9 @@
 		<property name="targetMethod">
 			<value>doSyncNews</value>
 		</property>
+		<property name="concurrent">  
+	        <value>false</value><!-- 禁止并发 -->
+	    </property>
 	</bean>
 	<!-- job的配置结束 -->
 

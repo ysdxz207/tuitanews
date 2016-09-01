@@ -49,67 +49,33 @@
    
    
    <!-- schema即为数据库名, tableName为对应的数据库表, domainObjectName是要生成的实体类  -->
-  <!--   <table schema="&dbName;" tableName="sys_area" domainObjectName="SysArea" >
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table>
-    <table schema="&dbName;" tableName="activity_area" domainObjectName="ActivityArea" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-    	enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table>
-    <table schema="&dbName;" tableName="activity_offer" domainObjectName="ActivityOffer" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-    	enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table>
-   
-   <table schema="&dbName;" tableName="offer_required_insurance" domainObjectName="OfferRequiredInsurance" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-    	enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table>
-    
-    <table schema="&dbName;" tableName="insurance_company" domainObjectName="InsuranceCompany" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-    	enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table>
-   -->
-      
-   <!-- <table schema="&dbName;" tableName="activity" domainObjectName="Activity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-    	enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table> 
-   
-   <table schema="&dbName;" tableName="offer" domainObjectName="Offer" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-    	enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table>  
-   
-   <table schema="&dbName;" tableName="activity_area" domainObjectName="ActivityArea" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-    	enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table> 
-   
-   <table schema="&dbName;" tableName="gift_package" domainObjectName="GiftPackage" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-        enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table> 
-   <table schema="&dbName;" tableName="gift" domainObjectName="Gift" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-        enableSelectByExample="false" selectByExampleQueryId="false">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table> 
-   -->
+	
+	
    <table schema="&dbName;" tableName="news_bean" domainObjectName="NewsBean" enableCountByExample="true" enableUpdateByExample="false" enableDeleteByExample="false"
         enableSelectByExample="true" selectByExampleQueryId="false">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="MySql" identity="true" />
-   </table> 
+	  <columnOverride column="content" property="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	  <columnOverride column="html" property="html" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	  <columnOverride column="content_with_imgs" property="contentWithImgs" javaType="java.lang.String" jdbcType="VARCHAR"/>
+   </table>
+   <!--
+   <table schema="&dbName;" tableName="news_channel" domainObjectName="NewsChannel" enableCountByExample="true" enableUpdateByExample="false" enableDeleteByExample="false"
+        enableSelectByExample="true" selectByExampleQueryId="false">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+   </table>
+   
+   <table schema="&dbName;" tableName="news_api_channel" domainObjectName="NewsApiChannel" enableCountByExample="true" enableUpdateByExample="false" enableDeleteByExample="false"
+        enableSelectByExample="true" selectByExampleQueryId="false">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+   </table>
+   <table schema="&dbName;" tableName="api_channel" domainObjectName="ApiChannel" enableCountByExample="true" enableUpdateByExample="false" enableDeleteByExample="false"
+        enableSelectByExample="true" selectByExampleQueryId="false">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+   </table>
+   -->
   </context>
 </generatorConfiguration>

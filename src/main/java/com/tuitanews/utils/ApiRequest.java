@@ -7,7 +7,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class ApiRequest {
 
@@ -66,5 +70,29 @@ public class ApiRequest {
 			strParams.append(key + "=" + value + "&");
 		}
 		return strParams.toString();
+	}
+	
+	public static void main(String[] args) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("channelId", "5572a10bb3cdc86cf39001f7");//科普最新
+		String result = request(Constants.NEWS_YIYUAN_SEARCH_URL, "e04b1335e03ad0ec621e1d380dc2c2de", params);
+		
+		JSONObject json = new JSONObject(result);
+		JSONObject li = json.getJSONObject("showapi_res_body").getJSONObject("pagebean");
+		JSONArray contentList = li.getJSONArray("contentlist");
+		for (int i = 0; i < contentList.length(); i++) {
+			JSONObject content = contentList.getJSONObject(i);
+			JSONArray allList = content.getJSONArray("allList");
+			//System.out.println(allList);
+			for (int j = 0; j < allList.length(); j++) {
+				Object obj = allList.get(j);
+				if (JsonUtils.isGoodJsonObject(obj.toString())){
+					//System.out.println(obj);
+					allList.put(j, "<img src=\"" + ((JSONObject)obj).getString("url") + "\" />");
+				}
+			}
+			//System.out.println(allList);
+		}
+		
 	}
 }
