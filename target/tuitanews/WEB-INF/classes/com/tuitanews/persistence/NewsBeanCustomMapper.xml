@@ -22,6 +22,8 @@
 			nb.channel_id = nac.api_channel_id
 		AND nac.news_channel_id = ac.id
 		AND ac.id = #{newsChannelId}
+		AND nac.`status` = 1
+		AND ac.`status` = 1
 	    ORDER BY pub_date DESC
 	    <if test="pageOffset != null and pageSize != null">
 			LIMIT #{pageOffset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};

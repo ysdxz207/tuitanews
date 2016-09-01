@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,8 @@ public class IndexController {
 	NewsBeanService newsBeanService;
 	@Autowired
 	ApiChannelService apiChannelService;
+	
+	private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
 	
 	@RequestMapping(value="/index", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView doIndex(Model model) {
@@ -72,6 +76,7 @@ public class IndexController {
 			newsbean = newsBeanService.selectNewsBean(newsBeanId);
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("", e);
 		}
 		
 		map.put("news", newsbean);
@@ -101,6 +106,7 @@ public class IndexController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("", e);
 		}
 		params.clear();
 		params.put("pageOffset", 0);
@@ -122,6 +128,7 @@ public class IndexController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("", e);
 		}
 		map.put("success", "同步成功");
 		return map;

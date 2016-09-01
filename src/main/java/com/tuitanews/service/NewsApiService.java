@@ -81,14 +81,17 @@ public class NewsApiService {
 				
 				newsBeanVO.setContentWithImgs(newsContent);
 				
-				String title = contentObj.optString("title");
+				String title = contentObj.getString("title");
 				String desc = contentObj.optString("desc");
+				logger.info("title=" + title);
+				logger.debug("desc=" + desc);
 				if (StringUtils.isEmpty(title)){
 					newsBeanVO.setTitle(desc);
 				}
 				list.add(newsBeanVO);
 			} catch (Exception e) {
 				e.printStackTrace();
+				logger.error("", e);
 			}
 		}
 		return list;

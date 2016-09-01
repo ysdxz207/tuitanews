@@ -35,6 +35,9 @@
 		<property name="targetMethod">
 			<value>doSyncNews</value>
 		</property>
+		<property name="concurrent">  
+	        <value>false</value><!-- 禁止并发 -->
+	    </property>
 	</bean>
 	<!-- job的配置结束 -->
 

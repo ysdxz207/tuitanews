@@ -1,160 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- scan:
-当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
-scanPeriod:
-设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
-debug:
-当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+<!-- scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。 scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 
+	debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+	<property name="DEV_HOME" value="c:/tuitanewslogs" />
+	<timestamp key="startTime" datePattern="yyyy-MM-dd" />
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<!-- encoders are by default assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] - %m%n</pattern>
-
-			<!-- 常用的Pattern变量,大家可打开该pattern进行输出观察 -->
-			<!-- <pattern> %d{yyyy-MM-dd HH:mm:ss} [%level] - %msg%n Logger: %logger 
-				Class: %class File: %file Caller: %caller Line: %line Message: %m Method: 
-				%M Relative: %relative Thread: %thread Exception: %ex xException: %xEx nopException: 
-				%nopex rException: %rEx Marker: %marker %n </pattern> -->
-		</encoder>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+				<!-- 常用的Pattern变量,大家可打开该pattern进行输出观察 -->
+				<!-- <pattern> %d{yyyy-MM-dd HH:mm:ss} [%level] - %msg%n Logger: %logger 
+					Class: %class File: %file Caller: %caller Line: %line Message: %m Method: 
+					%M Relative: %relative Thread: %thread Exception: %ex xException: %xEx nopException: 
+					%nopex rException: %rEx Marker: %marker %n </pattern> -->
+			</Pattern>
+		</layout>
 	</appender>
 
-	<!-- 按日期区分的滚动日志 -->
-	<appender name="ERROR-OUT"
+	<appender name="FILE-INFO"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>C:/tuitanewslogs/error.log</file>
-
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
+		<file>${DEV_HOME}/${startTime}/info.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+			</Pattern>
 		</encoder>
-
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">
-			<level>ERROR</level>
-			<onMatch>ACCEPT</onMatch>
-			<onMismatch>DENY</onMismatch>
-		</filter>
-
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- daily rollover -->
-			<fileNamePattern>error.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
-
-			<!-- keep 30 days' worth of history -->
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
-	</appender>
-
-	<!-- 按文件大小区分的滚动日志 -->
-	<appender name="INFO-OUT"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>C:/tuitanewslogs/info.log</file>
-
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
-		</encoder>
-
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
 			<level>INFO</level>
 			<onMatch>ACCEPT</onMatch>
 			<onMismatch>DENY</onMismatch>
 		</filter>
-
-		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<fileNamePattern>info.%i.log</fileNamePattern>
-			<minIndex>1</minIndex>
-			<maxIndex>3</maxIndex>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${DEV_HOME}/archived/info.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 
-		<triggeringPolicy
-			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-			<maxFileSize>5MB</maxFileSize>
-		</triggeringPolicy>
-
 	</appender>
-
-
-	<!-- 按日期和大小区分的滚动日志 -->
-	<appender name="DEBUG-OUT"
+	<appender name="FILE-DEBUG"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>C:/tuitanewslogs/debug.log</file>
-
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
+		<file>${DEV_HOME}/${startTime}/debug.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+			</Pattern>
 		</encoder>
-
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
 			<level>DEBUG</level>
 			<onMatch>ACCEPT</onMatch>
 			<onMismatch>DENY</onMismatch>
 		</filter>
-
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-
+			<fileNamePattern>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<!-- or whenever the file size reaches 100MB -->
-				<maxFileSize>100MB</maxFileSize>
+				<maxFileSize>10MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
-
 		</rollingPolicy>
 
 	</appender>
 
-
-	<!-- 级别阀值过滤 -->
-	<appender name="SUM-OUT"
+	<appender name="FILE-ERROR"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>C:/tuitanewslogs/sum.log</file>
-
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
+		<file>${DEV_HOME}/${startTime}/error.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+			</Pattern>
 		</encoder>
 
-		<!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>INFO</level>
-		</filter>
-
-
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-
+			<fileNamePattern>${DEV_HOME}/archived/error.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<!-- or whenever the file size reaches 100MB -->
-				<maxFileSize>100MB</maxFileSize>
+				<maxFileSize>10MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
-
 		</rollingPolicy>
 
 	</appender>
 
-	<!--日志打印的包的范围，及分类日志文件存储 -->
-	<logger name="com.tuitanews.service" additivity="false">
-		<level value="ERROR" />
+	<logger name="com.tuitanews" level="INFO" additivity="false">
+		<appender-ref ref="FILE-INFO" />
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="INFO-OUT" />
-	</logger>
-	
-	<!-- additivity若未配置class，level等,是否继承上级，如root -->
-	<logger name="com.tuitanews.core" additivity="false">
-		<level value="INFO" />
-		<appender-ref ref="STDOUT" />
-		<appender-ref ref="INFO-OUT" />
-		<appender-ref ref="DEBUG-OUT" />
-		<appender-ref ref="ERROR-OUT" />
-	</logger>
-	
-	<logger name="com.tuitanews" additivity="false">
-		<level value="ERROR" />
-		<appender-ref ref="ERROR-OUT" />
 	</logger>
 
-	<!--控制台打印资源加载信息 -->
-	<root level="ERROR">
-		<appender-ref ref="STDOUT" />
+	<logger name="com.tuitanews" level="ERROR" additivity="false">
+		<appender-ref ref="FILE-ERROR" />
+	</logger>
+
+	<root level="error">
+		<appender-ref ref="FILE-ERROR" />
 	</root>
 
 </configuration>
