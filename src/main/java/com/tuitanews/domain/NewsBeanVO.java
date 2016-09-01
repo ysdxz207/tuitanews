@@ -25,8 +25,16 @@ public class NewsBeanVO implements Serializable{
 	@JsonProperty("allList")
 	private String allList;//
 	
+	private Integer newsChannelId;
 	
 	
+	
+	public Integer getNewsChannelId() {
+		return newsChannelId;
+	}
+	public void setNewsChannelId(Integer newsChannelId) {
+		this.newsChannelId = newsChannelId;
+	}
 	public String getContentWithImgs() {
 		return contentWithImgs;
 	}

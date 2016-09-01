@@ -13,7 +13,8 @@
 			nb.face_url,
 			nb.source,
 			nb.pub_date,
-			nb.create_date
+			nb.create_date,
+			nac.news_channel_id
 		FROM
 			news_bean nb,
 			news_api_channel nac,

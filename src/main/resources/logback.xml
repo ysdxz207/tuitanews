@@ -89,11 +89,6 @@
 
 	</appender>
 
-	<logger name="com.tuitanews" level="INFO" additivity="false">
-		<appender-ref ref="FILE-INFO" />
-		<appender-ref ref="STDOUT" />
-	</logger>
-
 	<logger name="com.tuitanews" level="ERROR" additivity="false">
 		<appender-ref ref="FILE-ERROR" />
 	</logger>
