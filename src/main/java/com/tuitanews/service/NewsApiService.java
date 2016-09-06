@@ -1,11 +1,10 @@
 package com.tuitanews.service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.jms.Destination;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
@@ -23,6 +22,7 @@ import com.tuitanews.domain.ApiChannelVO;
 import com.tuitanews.domain.NewsBeanVO;
 import com.tuitanews.utils.ApiRequest;
 import com.tuitanews.utils.Constants;
+import com.tuitanews.utils.DateConverter;
 import com.tuitanews.utils.JsonUtils;
 
 @Service
@@ -39,6 +39,10 @@ public class NewsApiService {
 
 		String baiduApikey = messageResolver.getMessage("apikey.baidu");
 		String responseValue = ApiRequest.request(Constants.NEWS_YIYUAN_SEARCH_URL, baiduApikey, params);
+		if (JsonUtils.isBadJsonObject(responseValue)){
+			return list;
+		}
+		
 		JSONObject jsonObject = null;
 		try {
 			jsonObject = new JSONObject(responseValue);
@@ -56,6 +60,7 @@ public class NewsApiService {
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);//忽略不需要的字段
+		mapper.setDateFormat(DateConverter.dateTimeFormat);//设置日期格式
 		
 		for (int i = 0; i < contentList.length(); i++) {
 			JSONObject contentObj = contentList.optJSONObject(i);
@@ -110,7 +115,7 @@ public class NewsApiService {
 				Object obj = allList.get(j);
 				try {
 					if (JsonUtils.isGoodJsonObject(obj.toString())){
-						sb.append("<img src=\"" + ((JSONObject)obj).getString("url") + "\" width=\"300\" />");
+						sb.append("<img src=\"" + ((JSONObject)obj).getString("url") + "\" />");
 					} else {
 						sb.append("<p>" + obj.toString() + "</p>");
 					}

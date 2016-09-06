@@ -21,7 +21,7 @@
 			<ref bean="syncNewsJobTriggerDetail" />
 		</property>
 		<property name="cronExpression">
-			<value>* */5 * * * ?</value>
+			<value>* */1 * * * ?</value>
 		</property>
 	</bean>
 	<!-- 调度的配置结束 -->

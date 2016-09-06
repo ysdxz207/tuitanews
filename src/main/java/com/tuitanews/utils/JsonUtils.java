@@ -50,7 +50,7 @@ public class JsonUtils {
 		}
 	}
 	public static void main(String[] args) {
-		String aa = "fdaf}";
-		System.out.println(isLostJsonEnd(aa));
+		String aa = null;
+		System.out.println(isBadJsonObject(aa));
 	}
 }

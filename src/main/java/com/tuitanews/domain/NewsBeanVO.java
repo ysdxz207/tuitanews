@@ -4,8 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tuitanews.utils.CustomDateTimeSerializer;
 
 public class NewsBeanVO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 57297363572586253L;
 	private Integer id;
 	private String nid;
 	private String title;//标题
@@ -19,7 +25,7 @@ public class NewsBeanVO implements Serializable{
 	private String channelName;//频道名
 	private String link;//链接
 	private String imageurls;//图片链接
-	private String pubDate;//发布时日
+	private Date pubDate;//发布时日
 	private Date creatDate;//创建日期
 	
 	@JsonProperty("allList")
@@ -126,10 +132,11 @@ public class NewsBeanVO implements Serializable{
 	public void setImageurls(String imageurls) {
 		this.imageurls = imageurls;
 	}
-	public String getPubDate() {
+	@JsonSerialize(using = CustomDateTimeSerializer.class)
+	public Date getPubDate() {
 		return pubDate;
 	}
-	public void setPubDate(String pubDate) {
+	public void setPubDate(Date pubDate) {
 		this.pubDate = pubDate;
 	}
 	

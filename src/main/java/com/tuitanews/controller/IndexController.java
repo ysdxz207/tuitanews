@@ -60,7 +60,12 @@ public class IndexController {
 		params.put("pageOffset", pageOffset);
 		params.put("pageSize", pageSize);
 		params.put("newsChannelId", newsChannelId);
-		List<NewsBeanVO> list = newsBeanService.selectNewsBeanList(params);
+		List<NewsBeanVO> list = null;
+		try {
+			list = newsBeanService.selectNewsBeanList(params);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		map.put("newsList", list);
 		return map;
 	}
