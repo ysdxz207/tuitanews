@@ -1,8 +1,8 @@
 package com.tuitanews.service;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -74,6 +74,11 @@ public class NewsApiService {
 				faceUrlObj = imageurls.getJSONObject(0);
 			}
 			contentObj.remove("imageurls");
+			
+			
+			if (!DateConverter.isValidDateTime(contentObj.optString("pubDate"))) {
+				contentObj.put("pubDate", DateConverter.formatDateTime(new Date()));
+			}
 			
 			try {
 				
