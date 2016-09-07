@@ -40,6 +40,7 @@ public class NewsApiService {
 		String baiduApikey = messageResolver.getMessage("apikey.baidu");
 		String responseValue = ApiRequest.request(Constants.NEWS_YIYUAN_SEARCH_URL, baiduApikey, params);
 		if (JsonUtils.isBadJsonObject(responseValue)){
+			logger.info("bad json:" + responseValue);
 			return list;
 		}
 		
@@ -79,7 +80,6 @@ public class NewsApiService {
 			if (!DateConverter.isValidDateTime(contentObj.optString("pubDate"))) {
 				contentObj.put("pubDate", DateConverter.formatDateTime(new Date()));
 			}
-			
 			try {
 				
 				NewsBeanVO newsBeanVO = mapper.readValue(contentObj.toString(), NewsBeanVO.class);

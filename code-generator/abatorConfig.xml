@@ -7,7 +7,7 @@
   <!ENTITY dbName "tuitanews">
   <!ENTITY dbHost "localhost">
   <!ENTITY dbPassword "root">
-  <!ENTITY mysqlDir "D:\Program Files\java\apache-maven-3.3.9\repository\mysql\mysql-connector-java\5.1.35">
+  <!ENTITY mysqlDir "D:\javadir\java\apache-maven-3.3.9\repository\mysql\mysql-connector-java\5.1.35">
   <!ENTITY mysqlJAR "&mysqlDir;/&connector;">
   <!ENTITY targetPrefix "F:/workspace/tuitanews/">
   <!ENTITY target "src/main/java">
