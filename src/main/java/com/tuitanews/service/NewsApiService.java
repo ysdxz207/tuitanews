@@ -67,7 +67,7 @@ public class NewsApiService {
 			JSONObject contentObj = contentList.optJSONObject(i);
 			
 			//处理图片内容
-			String newsContent = getNewsContent(contentObj);
+			//String newsContent = getNewsContent(contentObj);
 			JSONArray imageurls = contentObj.optJSONArray("imageurls");
 			//封面图片
 			JSONObject faceUrlObj = null;
@@ -76,6 +76,10 @@ public class NewsApiService {
 			}
 			contentObj.remove("imageurls");
 			
+			//处理html
+			String html = getNewsHtml(contentObj);
+			contentObj.remove("allList");
+			contentObj.remove("html");
 			
 			if (!DateConverter.isValidDateTime(contentObj.optString("pubDate"))) {
 				contentObj.put("pubDate", DateConverter.formatDateTime(new Date()));
@@ -89,13 +93,14 @@ public class NewsApiService {
 					newsBeanVO.setFaceUrl("");
 				}
 				
-				newsBeanVO.setContentWithImgs(newsContent);
+				//newsBeanVO.setContentWithImgs(newsContent);
 				
 				String title = contentObj.optString("title");
 				String desc = contentObj.optString("desc");
 				if (StringUtils.isEmpty(title)){
 					newsBeanVO.setTitle(desc);
 				}
+				newsBeanVO.setHtml(html);
 				list.add(newsBeanVO);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -103,6 +108,10 @@ public class NewsApiService {
 			}
 		}
 		return list;
+	}
+	private String getNewsHtml(JSONObject contentObj) {
+		String content = contentObj.optString("html");
+		return content.replaceAll("'", "\"");
 	}
 	/**
 	 * 处理新闻内容图片
@@ -120,7 +129,7 @@ public class NewsApiService {
 				Object obj = allList.get(j);
 				try {
 					if (JsonUtils.isGoodJsonObject(obj.toString())){
-						sb.append("<img src=\"" + ((JSONObject)obj).getString("url") + "\" />");
+						sb.append("<p><img src=\"" + ((JSONObject)obj).getString("url") + "\" /></p>");
 					} else {
 						sb.append("<p>" + obj.toString() + "</p>");
 					}
